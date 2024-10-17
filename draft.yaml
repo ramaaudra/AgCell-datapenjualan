@@ -1,0 +1,20 @@
+models:
+  Produk:
+    image: string:255
+    nama_produk: string:100
+    qty_stok: integer
+    harga_beli: integer
+    harga_jual_toko: integer
+    relationships:
+      belongsTo: Kategori
+
+  Kategori:
+    nama: string:200
+    relationships:
+      hasMany: Produk
+
+  Penjualan:
+    tanggal: date
+    jumlah: integer
+
+seeders: Produk, Kategori, Penjualan
