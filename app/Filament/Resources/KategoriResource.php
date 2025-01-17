@@ -19,6 +19,16 @@ class KategoriResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    //navigation label
+    protected static ?string $navigationLabel = 'Kategori';
+
+    protected static ?string $navigationGroup = 'Produk';
+
+    //navigation sort
+    protected static ?int $navigationSort = 2;
+
+
+
     public static function form(Form $form): Form
     {
         return $form

@@ -17,7 +17,17 @@ class ProdukResource extends Resource
 {
     protected static ?string $model = Produk::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-building-storefront';
+
+    //navigation label
+    protected static ?string $navigationLabel = 'Produk';
+
+    //navigation group
+    protected static ?string $navigationGroup = 'Produk';
+
+    //navigation sort
+    protected static ?int $navigationSort = 3;
+
 
     public static function form(Form $form): Form
     {
@@ -45,14 +55,19 @@ class ProdukResource extends Resource
                     ->label('Kategori')
                     ->relationship('kategori', 'nama')
                     ->required(),
+
+
             ]);
+
+
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                ->square(),
                 Tables\Columns\TextColumn::make('nama_produk')
                     ->label('Nama Produk')
                     ->searchable(),

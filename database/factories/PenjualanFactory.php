@@ -23,6 +23,7 @@ class PenjualanFactory extends Factory
         return [
             'tanggal' => $this->faker->date(),
             'jumlah' => $this->faker->numberBetween(-10000, 10000),
+            'pembeli' => $this->faker->name(),
         ];
     }
 }

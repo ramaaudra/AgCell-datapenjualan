@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Penjualan extends Model
 {
@@ -15,8 +16,10 @@ class Penjualan extends Model
      * @var array
      */
     protected $fillable = [
+
         'tanggal',
         'jumlah',
+        'pembeli',
     ];
 
     /**
@@ -28,4 +31,9 @@ class Penjualan extends Model
         'id' => 'integer',
         'tanggal' => 'date',
     ];
+
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(ProdukPenjualan::class, 'penjualan_id');
+    }
 }
