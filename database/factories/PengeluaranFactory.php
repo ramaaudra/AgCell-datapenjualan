@@ -17,7 +17,7 @@ class PengeluaranFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
+            'name' => $this->faker->sentence(1),
             'deskripsi' => $this->faker->sentence(),
             'jumlah' => $this->faker->numberBetween(2000, 10000),
             'tanggal' => $this->faker->date(),

@@ -23,10 +23,10 @@ class ProdukFactory extends Factory
     {
         return [
             'image' => $this->faker->imageUrl(),
-            'nama_produk' => $this->faker->sentence(),
-            'qty_stok' => $this->faker->numberBetween(-10000, 10000),
-            'harga_beli' => $this->faker->numberBetween(-10000, 10000),
-            'harga_jual_toko' => $this->faker->numberBetween(-10000, 10000),
+            'nama_produk' => $this->faker->sentence(1),
+            'qty_stok' => $this->faker->numberBetween(0, 10000),
+            'harga_beli' => $this->faker->numberBetween(0, 10000),
+            'harga_jual_toko' => $this->faker->numberBetween(0, 10000),
             'kategori_id' => Kategori::factory(),
         ];
     }
