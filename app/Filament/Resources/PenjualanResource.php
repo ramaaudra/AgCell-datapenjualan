@@ -100,7 +100,11 @@ class PenjualanResource extends Resource
 
     public static function getPages(): array
     {
-        return [];
+        return [
+            'index' => Pages\ListPenjualans::route('/'),
+            'create' => Pages\CreatePenjualan::route('/create'),
+            'edit' => Pages\EditPenjualan::route('/{record}/edit'),
+        ];
     }
 
     public static function getItemsRepeater(): Repeater
