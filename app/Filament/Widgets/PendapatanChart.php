@@ -77,11 +77,16 @@ class PendapatanChart extends ChartWidget
             return $date->format('M Y');
         });
 
+        // Define color based on the static property
+        $chartColor = static::$color === 'success' ? '#10b981' : '#ef4444'; // Green for success, red otherwise
+
         return [
             'datasets' => [
                 [
                     'label' => 'Omset ' . $this->getFilters()[$activeFilter],
                     'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $chartColor,
+                    'borderColor' => $chartColor,
                 ],
             ],
             'labels' => $labels,

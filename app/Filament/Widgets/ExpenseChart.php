@@ -82,11 +82,16 @@ class ExpenseChart extends ChartWidget
             return $date->format('M Y');
         });
 
+        // Define color based on the static property
+        $chartColor = static::$color === 'danger' ? '#ef4444' : '#10b981'; // Red for danger, green otherwise
+
         return [
             'datasets' => [
                 [
                     'label' => 'Pengeluaran ' . ($this->getFilters()[$activeFilter] ?? 'Hari Ini'),
                     'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $chartColor,
+                    'borderColor' => $chartColor,
                 ],
             ],
             'labels' => $labels,
