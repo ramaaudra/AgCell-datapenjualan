@@ -60,10 +60,6 @@ class LaporanPenjualanResource extends Resource
                     ->label('Total (Rp)')
                     ->money('IDR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('orderProducts.count')
-                    ->label('Jumlah Item')
-                    ->counts('orderProducts')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('produk_terjual')
                     ->label('Produk Terjual')
                     ->getStateUsing(function (Penjualan $record) {
