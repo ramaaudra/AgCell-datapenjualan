@@ -22,16 +22,18 @@ class LaporanPenjualanResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
 
-    protected static ?string $navigationLabel = 'Laporan Penjualan';
-
     protected static ?int $navigationSort = 5;
 
     protected static ?string $slug = 'laporan-penjualan';
 
-    public static function getNavigationGroup(): ?string
-    {
-        return 'Laporan';
-    }
+    protected static?string $navigationLabel = 'Laporan Penjualan';
+
+    protected static ?string $pluralModelLabel = 'Laporan Penjualan';
+    protected static ?string $modelLabel = 'Laporan Penjualan';
+
+
+
+   
 
     public static function form(Form $form): Form
     {
@@ -44,6 +46,7 @@ class LaporanPenjualanResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->heading('Laporan Penjualan')
             ->query(
                 Penjualan::query()
             )

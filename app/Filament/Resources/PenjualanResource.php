@@ -25,6 +25,8 @@ class PenjualanResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-shopping-cart';
 
+    protected static ?string $pluralModelLabel = 'Penjualan';
+    protected static ?string $modelLabel = 'Penjualan';
 
     //navigation label
     protected static ?string $navigationLabel = 'Penjualan';
@@ -44,9 +46,9 @@ class PenjualanResource extends Resource
                     ->required()
                     ->maxLength(200),
 
-            Forms\Components\Section::make('Produk dipesan')->schema([
-                self::getItemsRepeater(),
-            ]),
+                Forms\Components\Section::make('Produk dipesan')->schema([
+                    self::getItemsRepeater(),
+                ]),
 
             Forms\Components\Group::make()
                 ->schema([

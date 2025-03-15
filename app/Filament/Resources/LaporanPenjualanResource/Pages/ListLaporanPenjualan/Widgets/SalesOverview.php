@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class SalesOverview extends BaseWidget
 {
+
     protected function getStats(): array
     {
         // Total sales for current month

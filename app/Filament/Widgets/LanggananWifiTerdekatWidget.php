@@ -16,7 +16,7 @@ class LanggananWifiTerdekatWidget extends BaseWidget
 
     protected function getTableHeading(): string
     {
-        return 'Langganan WiFi';
+        return 'Tenggat langganan WiFi terdekat';
     }
 
     public function table(Table $table): Table
