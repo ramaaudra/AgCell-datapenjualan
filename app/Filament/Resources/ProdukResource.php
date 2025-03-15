@@ -59,7 +59,6 @@ class ProdukResource extends Resource
 
             ]);
 
-
     }
 
     public static function table(Table $table): Table
