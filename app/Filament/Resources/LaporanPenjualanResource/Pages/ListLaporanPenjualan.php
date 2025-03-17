@@ -26,6 +26,7 @@ class ListLaporanPenjualan extends ListRecords
     {
         return [
             ListLaporanPenjualan\Widgets\SalesOverview::class,
+            ListLaporanPenjualan\Widgets\NetProfitOverview::class,
             ListLaporanPenjualan\Widgets\TopSellingProducts::class,
         ];
     }

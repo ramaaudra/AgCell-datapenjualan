@@ -7,6 +7,7 @@ use App\Models\Penjualan;
 use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\ProdukPenjualan;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -63,6 +64,16 @@ class LaporanPenjualanResource extends Resource
                     ->label('Total (Rp)')
                     ->money('IDR')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('laba_bersih')
+                    ->label('Laba Bersih (Rp)')
+                    ->money('IDR')
+                    ->getStateUsing(function (Penjualan $record) {
+                        return $record->orderProducts()->with('produk')->get()
+                            ->sum(function ($item) {
+                                return ($item->produk->harga_jual_toko - $item->produk->harga_beli) * $item->quantity;
+                            });
+                    })
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('produk_terjual')
                     ->label('Produk Terjual')
                     ->getStateUsing(function (Penjualan $record) {
@@ -107,6 +118,7 @@ class LaporanPenjualanResource extends Resource
 
                         return $query;
                     }),
+
             ])
             ->actions([
                 Tables\Actions\Action::make('detail')
