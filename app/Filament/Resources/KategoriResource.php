@@ -35,7 +35,8 @@ class KategoriResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nama')
                     ->required()
-                    ->maxLength(200),
+                    ->maxLength(200)
+                    ->placeholder('Masukkan nama kategori'),
             ]);
     }
 
@@ -59,7 +60,7 @@ class KategoriResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

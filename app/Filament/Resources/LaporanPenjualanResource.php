@@ -26,14 +26,14 @@ class LaporanPenjualanResource extends Resource
 
     protected static ?string $slug = 'laporan-penjualan';
 
-    protected static?string $navigationLabel = 'Laporan Penjualan';
+    protected static ?string $navigationLabel = 'Laporan Penjualan';
 
     protected static ?string $pluralModelLabel = 'Laporan Penjualan';
     protected static ?string $modelLabel = 'Laporan Penjualan';
 
 
 
-   
+
 
     public static function form(Form $form): Form
     {
@@ -78,9 +78,11 @@ class LaporanPenjualanResource extends Resource
                 Tables\Filters\Filter::make('tanggal')
                     ->form([
                         Forms\Components\DatePicker::make('dari_tanggal')
-                            ->label('Dari Tanggal'),
+                            ->label('Dari Tanggal')
+                            ->placeholder('Pilih tanggal awal'),
                         Forms\Components\DatePicker::make('sampai_tanggal')
-                            ->label('Sampai Tanggal'),
+                            ->label('Sampai Tanggal')
+                            ->placeholder('Pilih tanggal akhir'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

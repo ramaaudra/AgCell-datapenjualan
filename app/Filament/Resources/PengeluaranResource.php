@@ -34,16 +34,20 @@ class PengeluaranResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(200),
+                    ->maxLength(200)
+                    ->placeholder('Masukkan nama pengeluaran'),
                 Forms\Components\DatePicker::make('tanggal')
                     ->label('Tanggal Orderan')
-                    ->required(),
+                    ->required()
+                    ->placeholder('Pilih tanggal pengeluaran'),
                 Forms\Components\TextInput::make('deskripsi')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan deskripsi pengeluaran'),
                 Forms\Components\TextInput::make('jumlah')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->placeholder('Masukkan jumlah pengeluaran dalam Rupiah'),
             ]);
     }
 

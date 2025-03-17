@@ -22,16 +22,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PenjualanResource extends Resource
 {
     protected static ?string $model = Penjualan::class;
-
     protected static ?string $navigationIcon = 'heroicon-m-shopping-cart';
-
     protected static ?string $pluralModelLabel = 'Penjualan';
     protected static ?string $modelLabel = 'Penjualan';
-
-    //navigation label
     protected static ?string $navigationLabel = 'Penjualan';
-
-    //navigation sort
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -41,30 +35,27 @@ class PenjualanResource extends Resource
                 Forms\Components\DatePicker::make('tanggal')
                     ->label('Tanggal Orderan')
                     ->required(),
-
                 Forms\Components\TextInput::make('pembeli')
                     ->required()
+                    ->placeholder('Masukkan nama pembeli')
                     ->maxLength(200),
-
                 Forms\Components\Section::make('Produk dipesan')->schema([
                     self::getItemsRepeater(),
                 ]),
-
-            Forms\Components\Group::make()
-                ->schema([
-                    Forms\Components\Section::make()
-                        ->schema([
-                            Forms\Components\TextInput::make('jumlah')
-                                ->required()
-                                ->readOnly()
-                                ->numeric(),
-                        ])
-                ]),
-
-
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('jumlah')
+                                    ->label('Jumlah (Rp)')
+                                    ->placeholder('Total jumlah')
+                                    ->required()
+                                    ->readOnly()
+                                    ->numeric(),
+                            ])
+                    ]),
             ]);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -78,6 +69,16 @@ class PenjualanResource extends Resource
                     ->label('Jumlah (Rp)')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('produk_terjual')
+                    ->label('Produk Terjual')
+                    ->getStateUsing(function (Penjualan $record) {
+                        $products = $record->orderProducts()->with('produk')->get()
+                            ->map(function ($item) {
+                                return $item->produk->nama_produk . ' (' . $item->quantity . ')';
+                            })->join(', ');
+
+                        return $products ?: '-';
+                    }),
                 Tables\Columns\TextColumn::make('pembeli')
                     ->sortable(),
             ])
@@ -90,7 +91,6 @@ class PenjualanResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-
     }
 
     public static function getRelations(): array
@@ -112,7 +112,7 @@ class PenjualanResource extends Resource
     public static function getItemsRepeater(): Repeater
     {
         return Repeater::make('orderProducts')
-        ->relationship()
+            ->relationship()
             ->live()
             ->columns([
                 'md' => 10,
@@ -122,8 +122,8 @@ class PenjualanResource extends Resource
             })
             ->schema([
                 Forms\Components\Select::make('produk_id')
-                ->label('Produk')
-                ->required()
+                    ->label('Produk')
+                    ->required()
                     ->options(Produk::query()->where('qty_stok', '>', 1)->pluck('nama_produk', 'id'))
                     ->columnSpan([
                         'md' => 5
@@ -143,7 +143,7 @@ class PenjualanResource extends Resource
                     })
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
                 Forms\Components\TextInput::make('quantity')
-                ->required()
+                    ->required()
                     ->numeric()
                     ->default(1)
                     ->minValue(1)
@@ -162,7 +162,7 @@ class PenjualanResource extends Resource
                         self::updateTotalPrice($get, $set);
                     }),
                 Forms\Components\TextInput::make('stok')
-                ->required()
+                    ->required()
                     ->numeric()
                     ->readOnly()
                     ->columnSpan([
@@ -176,8 +176,7 @@ class PenjualanResource extends Resource
                     ->columnSpan([
                         'md' => 3
                     ]),
-                ]);
-
+            ]);
     }
 
     protected static function updateTotalPrice(Forms\Get $get, Forms\Set $set): void

@@ -35,30 +35,35 @@ class ProdukResource extends Resource
             ->schema([
                 Forms\Components\FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->placeholder('Unggah gambar produk'),
                 Forms\Components\TextInput::make('nama_produk')
                     ->required()
-                    ->maxLength(100),
+                    ->maxLength(100)
+                    ->placeholder('Masukkan nama produk'),
                 Forms\Components\TextInput::make('qty_stok')
                     ->label('Jumlah Stok')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->placeholder('Masukkan jumlah stok'),
                 Forms\Components\TextInput::make('harga_beli')
                     ->label('Harga Beli (Rp)')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->placeholder('Masukkan harga beli produk'),
                 Forms\Components\TextInput::make('harga_jual_toko')
                     ->label('Harga Jual di Toko (Rp)')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->placeholder('Masukkan harga jual produk'),
                 Forms\Components\Select::make('kategori_id')
                     ->label('Kategori')
                     ->relationship('kategori', 'nama')
-                    ->required(),
+                    ->required()
+                    ->placeholder('Pilih kategori produk'),
 
 
             ]);
-
     }
 
     public static function table(Table $table): Table
@@ -66,7 +71,7 @@ class ProdukResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                ->square(),
+                    ->square(),
                 Tables\Columns\TextColumn::make('nama_produk')
                     ->label('Nama Produk')
                     ->searchable(),

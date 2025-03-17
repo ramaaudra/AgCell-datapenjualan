@@ -31,27 +31,34 @@ class LanggananWifiResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nama_pelanggan')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan nama lengkap pelanggan'),
                 Forms\Components\TextInput::make('alamat')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan alamat lengkap pelanggan'),
                 Forms\Components\TextInput::make('no_telepon')
                     ->tel()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Contoh: 08123456789'),
                 Forms\Components\DatePicker::make('tanggal_mulai')
-                    ->required(),
+                    ->required()
+                    ->placeholder('Pilih tanggal mulai langganan'),
                 Forms\Components\DatePicker::make('tanggal_berakhir')
-                    ->required(),
+                    ->required()
+                    ->placeholder('Pilih tanggal berakhir langganan'),
                 Forms\Components\TextInput::make('biaya_bulanan')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->placeholder('Masukkan biaya bulanan dalam Rupiah'),
                 Forms\Components\Select::make('status')
                     ->required()
                     ->options([
                         'aktif' => 'Aktif',
                         'nonaktif' => 'Nonaktif',
-                    ]),
+                    ])
+                    ->placeholder('Pilih status langganan'),
             ]);
     }
 

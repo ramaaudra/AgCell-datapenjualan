@@ -26,7 +26,7 @@ class ServiceHpResource extends Resource
     protected static ?string $navigationGroup = 'Service';
 
     //model label
-    
+
 
     public static function form(Form $form): Form
     {
@@ -34,36 +34,46 @@ class ServiceHpResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nama_pelanggan')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan nama lengkap pelanggan'),
                 Forms\Components\TextInput::make('no_telepon')
                     ->tel()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Contoh: 08123456789'),
                 Forms\Components\TextInput::make('merk_hp')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan merk HP'),
                 Forms\Components\TextInput::make('model_hp')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder('Masukkan model HP'),
                 Forms\Components\Textarea::make('jenis_kerusakan')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->placeholder('Jelaskan jenis kerusakan HP'),
                 Forms\Components\Textarea::make('keterangan')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->placeholder('Tambahkan keterangan tambahan jika ada'),
                 Forms\Components\TextInput::make('biaya_service')
                     ->numeric()
-                    ->default(null),
+                    ->default(null)
+                    ->placeholder('Masukkan biaya service dalam Rupiah'),
                 Forms\Components\Select::make('status')
                     ->required()
-                ->options([
-                    'menunggu' => 'Menunggu',
-                    'proses' => 'Proses',
-                    'selesai' => 'Selesai',
-                    'diambil' => 'Diambil'
-                ]),
+                    ->options([
+                        'menunggu' => 'Menunggu',
+                        'proses' => 'Proses',
+                        'selesai' => 'Selesai',
+                        'diambil' => 'Diambil'
+                    ])
+                    ->placeholder('Pilih status service'),
                 Forms\Components\DatePicker::make('tanggal_masuk')
-                    ->required(),
-                Forms\Components\DatePicker::make('tanggal_selesai'),
+                    ->required()
+                    ->placeholder('Pilih tanggal masuk service'),
+                Forms\Components\DatePicker::make('tanggal_selesai')
+                    ->placeholder('Pilih tanggal selesai service'),
             ]);
     }
 
@@ -82,23 +92,23 @@ class ServiceHpResource extends Resource
                 Tables\Columns\TextColumn::make('biaya_service')
                     ->numeric()
                     ->sortable(),
-            Tables\Columns\TextColumn::make('status')
-            ->badge()
-            ->icon(fn(string $state): string => match ($state) {
-                'menunggu' => 'heroicon-o-clock',
-                'proses' => 'heroicon-o-arrow-path',
-                'selesai' => 'heroicon-o-check-circle',
-                'diambil' => 'heroicon-o-truck',
-            })
-            ->color(fn(string $state): string => match ($state) {
-                'menunggu' => 'gray',
-                'proses' => 'info',
-                'selesai' => 'success',
-                'diambil' => 'warning',
-            })
-            ->formatStateUsing(fn(string $state): string => strtoupper($state))
-            ->searchable(),
-            Tables\Columns\TextColumn::make('tanggal_masuk')
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->icon(fn(string $state): string => match ($state) {
+                        'menunggu' => 'heroicon-o-clock',
+                        'proses' => 'heroicon-o-arrow-path',
+                        'selesai' => 'heroicon-o-check-circle',
+                        'diambil' => 'heroicon-o-truck',
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'menunggu' => 'gray',
+                        'proses' => 'info',
+                        'selesai' => 'success',
+                        'diambil' => 'warning',
+                    })
+                    ->formatStateUsing(fn(string $state): string => strtoupper($state))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tanggal_masuk')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tanggal_selesai')
@@ -118,7 +128,7 @@ class ServiceHpResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
