@@ -7,12 +7,18 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 class ProdukTerlarisWidget extends BaseWidget
 {
-    protected static ?int $sort = 5;
+    protected static ?int $sort = 9;
 
     protected int | string | array $columnSpan = 'full';
+
+    public function getTableRecordKey(Model $record): string
+    {
+        return $record->produk_id;
+    }
 
     protected function getTableHeading(): string
     {

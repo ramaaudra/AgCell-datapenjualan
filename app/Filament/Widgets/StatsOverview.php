@@ -11,31 +11,22 @@ use App\Models\ServiceHp;
 
 class StatsOverview extends BaseWidget
 {
+    protected static ?int $sort = 2;
     protected function getStats(): array
     {
 
-        $totalPenjualan = Penjualan::sum('jumlah');
         //total penjualan hari ini
         $totalPenjualanHariIni = Penjualan::whereDate('tanggal', now())->sum('jumlah');
 
-        //total penjualan bulan ini
-        $totalPenjualanBulanIni = Penjualan::whereMonth('tanggal', now())->sum('jumlah');
-
-        //total pengeluaran bulan ini
-        $totalPengeluaranBulanIni = Pengeluaran::whereMonth('tanggal', now())->sum('jumlah');
-
-        //total pelanggan wifi
-        $totalPelangganWifi = LanggananWifi::count();
+        //total pelanggan wifi aktif
+        $totalPelangganWifi = LanggananWifi::where('status', 'aktif')->count();
 
         //total service hp
         $totalServiceHp = ServiceHp::count();
         return [
 
-            Stat::make('Total Omzet Total (Rp)', number_format($totalPenjualan)),
-            Stat::make('Total Omzet Hari Ini (Rp)',number_format($totalPenjualanHariIni)),
-            Stat::make('Total Omzet Bulan ini (Rp)', number_format($totalPenjualanBulanIni)),
-            Stat::make('Total Pengeluaran Bulan ini (Rp)', number_format($totalPengeluaranBulanIni)),
-            Stat::make('Total Pelanggan Wifi', $totalPelangganWifi),
+            Stat::make('Total Pendapatan Hari Ini (Rp)', number_format($totalPenjualanHariIni)),
+            Stat::make('Total Pelanggan Wifi Aktif', $totalPelangganWifi),
             Stat::make('Total Service HP', $totalServiceHp)
         ];
     }

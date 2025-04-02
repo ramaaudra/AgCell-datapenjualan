@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LanggananWifiTerdekatWidget extends BaseWidget
 {
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 95;
 
     protected int | string | array $columnSpan = 'full';
 

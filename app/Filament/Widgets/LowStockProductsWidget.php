@@ -9,13 +9,13 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LowStockProductsWidget extends BaseWidget
 {
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 8;
 
     protected int | string | array $columnSpan = 'full';
 
     protected function getTableHeading(): string
     {
-        return 'Produk dengan Stok Menipis';
+        return 'Produk dengan Stok Menipis <= 10';
     }
 
     public function table(Table $table): Table
@@ -23,7 +23,7 @@ class LowStockProductsWidget extends BaseWidget
         return $table
             ->query(
                 Produk::query()
-                    ->where('qty_stok', '<=', 5)
+                    ->where('qty_stok', '<=', 10)
                     ->orderBy('qty_stok', 'asc')
                     ->limit(10)
             )

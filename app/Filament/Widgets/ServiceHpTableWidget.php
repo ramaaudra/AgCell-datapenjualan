@@ -9,7 +9,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class ServiceHpTableWidget extends BaseWidget
 {
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 99;
 
     protected int | string | array $columnSpan = 'full';
 

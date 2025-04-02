@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProfitSummaryWidget extends BaseWidget
 {
-    protected static ?int $sort = 7;
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {
