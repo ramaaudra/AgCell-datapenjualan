@@ -29,36 +29,67 @@ class LanggananWifiResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_pelanggan')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan nama lengkap pelanggan'),
-                Forms\Components\TextInput::make('alamat')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan alamat lengkap pelanggan'),
-                Forms\Components\TextInput::make('no_telepon')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Contoh: 08123456789'),
-                Forms\Components\DatePicker::make('tanggal_mulai')
-                    ->required()
-                    ->placeholder('Pilih tanggal mulai langganan'),
-                Forms\Components\DatePicker::make('tanggal_berakhir')
-                    ->required()
-                    ->placeholder('Pilih tanggal berakhir langganan'),
-                Forms\Components\TextInput::make('biaya_bulanan')
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Masukkan biaya bulanan dalam Rupiah'),
-                Forms\Components\Select::make('status')
-                    ->required()
-                    ->options([
-                        'aktif' => 'Aktif',
-                        'nonaktif' => 'Nonaktif',
-                    ])
-                    ->placeholder('Pilih status langganan'),
+                Forms\Components\Section::make('Informasi Pelanggan')
+                    ->description('Data pelanggan yang berlangganan WiFi')
+                    ->icon('heroicon-o-user')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('nama_pelanggan')
+                            ->label('Nama Pelanggan')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Masukkan nama lengkap pelanggan')
+                            ->helperText('Nama lengkap pelanggan untuk identifikasi'),
+                        Forms\Components\TextInput::make('no_telepon')
+                            ->label('Nomor Telepon')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Contoh: 08123456789')
+                            ->helperText('Nomor yang bisa dihubungi untuk informasi langganan'),
+                        Forms\Components\TextInput::make('alamat')
+                            ->label('Alamat Lengkap')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Masukkan alamat lengkap pelanggan')
+                            ->helperText('Alamat pemasangan WiFi')
+                            ->columnSpanFull(),
+                    ]),
+
+                Forms\Components\Section::make('Detail Langganan')
+                    ->description('Informasi periode dan biaya langganan')
+                    ->icon('heroicon-o-signal')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\DatePicker::make('tanggal_mulai')
+                            ->label('Tanggal Mulai')
+                            ->required()
+                            ->placeholder('Pilih tanggal mulai langganan')
+                            ->default(now())
+                            ->helperText('Tanggal awal berlangganan'),
+                        Forms\Components\DatePicker::make('tanggal_berakhir')
+                            ->label('Tanggal Berakhir')
+                            ->required()
+                            ->placeholder('Pilih tanggal berakhir langganan')
+                            ->helperText('Tanggal akhir berlangganan'),
+                        Forms\Components\TextInput::make('biaya_bulanan')
+                            ->label('Biaya Bulanan (Rp)')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('Masukkan biaya bulanan')
+                            ->helperText('Biaya yang ditagihkan setiap bulan'),
+                        Forms\Components\Select::make('status')
+                            ->label('Status Langganan')
+                            ->required()
+                            ->options([
+                                'aktif' => 'Aktif',
+                                'nonaktif' => 'Nonaktif',
+                            ])
+                            ->default('aktif')
+                            ->placeholder('Pilih status langganan')
+                            ->helperText('Status aktif/nonaktif langganan'),
+                    ]),
             ]);
     }
 

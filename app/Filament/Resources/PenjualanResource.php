@@ -32,27 +32,42 @@ class PenjualanResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('tanggal')
-                    ->label('Tanggal Orderan')
-                    ->required(),
-                Forms\Components\TextInput::make('pembeli')
-                    ->required()
-                    ->placeholder('Masukkan nama pembeli')
-                    ->maxLength(200),
-                Forms\Components\Section::make('Produk dipesan')->schema([
-                    self::getItemsRepeater(),
-                ]),
-                Forms\Components\Group::make()
+                Forms\Components\Section::make('Informasi Penjualan')
+                    ->description('Detail informasi penjualan')
+                    ->icon('heroicon-m-shopping-cart')
+                    ->columns(2)
                     ->schema([
-                        Forms\Components\Section::make()
-                            ->schema([
-                                Forms\Components\TextInput::make('jumlah')
-                                    ->label('Jumlah (Rp)')
-                                    ->placeholder('Total jumlah')
-                                    ->required()
-                                    ->readOnly()
-                                    ->numeric(),
-                            ])
+                        Forms\Components\DatePicker::make('tanggal')
+                            ->label('Tanggal Penjualan')
+                            ->required()
+                            ->default(now())
+                            ->placeholder('Pilih tanggal penjualan')
+                            ->helperText('Tanggal terjadinya transaksi penjualan'),
+                        Forms\Components\TextInput::make('pembeli')
+                            ->label('Nama Pembeli')
+                            ->required()
+                            ->placeholder('Masukkan nama pembeli')
+                            ->maxLength(200)
+                            ->helperText('Nama pelanggan yang melakukan pembelian'),
+                    ]),
+                Forms\Components\Section::make('Produk yang Dibeli')
+                    ->description('Daftar produk yang dibeli oleh pelanggan')
+                    ->icon('heroicon-o-shopping-bag')
+                    ->schema([
+                        self::getItemsRepeater(),
+                    ]),
+                Forms\Components\Section::make('Total Pembayaran')
+                    ->description('Informasi total pembayaran')
+                    ->icon('heroicon-o-banknotes')
+                    ->schema([
+                        Forms\Components\TextInput::make('jumlah')
+                            ->label('Total Pembayaran (Rp)')
+                            ->placeholder('Total pembayaran')
+                            ->required()
+                            ->readOnly()
+                            ->prefix('Rp')
+                            ->numeric()
+                            ->helperText('Total pembayaran dihitung otomatis berdasarkan produk yang dipilih'),
                     ]),
             ]);
     }
@@ -117,17 +132,25 @@ class PenjualanResource extends Resource
             ->columns([
                 'md' => 10,
             ])
+            ->itemLabel(function (array $state): ?string {
+                $productName = Produk::find($state['produk_id'] ?? null)?->nama_produk ?? 'Produk';
+                $quantity = $state['quantity'] ?? 0;
+                return $productName . ' (x' . $quantity . ')';
+            })
+            ->collapsible()
             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
                 self::updateTotalPrice($get, $set);
             })
             ->schema([
                 Forms\Components\Select::make('produk_id')
-                    ->label('Produk')
+                    ->label('Pilih Produk')
                     ->required()
+                    ->searchable()
                     ->options(Produk::query()->where('qty_stok', '>', 1)->pluck('nama_produk', 'id'))
                     ->columnSpan([
                         'md' => 5
                     ])
+                    ->helperText('Pilih produk yang dibeli pelanggan')
                     ->afterStateHydrated(function (Forms\Set $set, Forms\Get $get, $state) {
                         $product = Produk::find($state);
                         $set('unit_price', $product->harga_jual_toko ?? 0);
@@ -143,10 +166,12 @@ class PenjualanResource extends Resource
                     })
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
                 Forms\Components\TextInput::make('quantity')
+                    ->label('Jumlah')
                     ->required()
                     ->numeric()
                     ->default(1)
                     ->minValue(1)
+                    ->helperText('Jumlah produk yang dibeli')
                     ->columnSpan([
                         'md' => 1
                     ])
@@ -162,17 +187,21 @@ class PenjualanResource extends Resource
                         self::updateTotalPrice($get, $set);
                     }),
                 Forms\Components\TextInput::make('stok')
+                    ->label('Stok Tersedia')
                     ->required()
                     ->numeric()
                     ->readOnly()
+                    ->helperText('Jumlah stok yang tersedia')
                     ->columnSpan([
                         'md' => 1
                     ]),
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Harga saat ini')
+                    ->label('Harga Satuan (Rp)')
                     ->required()
                     ->numeric()
+                    ->prefix('Rp')
                     ->readOnly()
+                    ->helperText('Harga per unit produk')
                     ->columnSpan([
                         'md' => 3
                     ]),

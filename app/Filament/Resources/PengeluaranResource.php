@@ -32,22 +32,38 @@ class PengeluaranResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(200)
-                    ->placeholder('Masukkan nama pengeluaran'),
-                Forms\Components\DatePicker::make('tanggal')
-                    ->label('Tanggal Orderan')
-                    ->required()
-                    ->placeholder('Pilih tanggal pengeluaran'),
-                Forms\Components\TextInput::make('deskripsi')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan deskripsi pengeluaran'),
-                Forms\Components\TextInput::make('jumlah')
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Masukkan jumlah pengeluaran dalam Rupiah'),
+                Forms\Components\Section::make('Detail Pengeluaran')
+                    ->description('Informasi tentang pengeluaran')
+                    ->icon('heroicon-m-currency-dollar')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nama Pengeluaran')
+                            ->required()
+                            ->maxLength(200)
+                            ->placeholder('Contoh: Pembelian Alat Tulis')
+                            ->helperText('Nama atau judul pengeluaran'),
+                        Forms\Components\DatePicker::make('tanggal')
+                            ->label('Tanggal Pengeluaran')
+                            ->required()
+                            ->default(now())
+                            ->placeholder('Pilih tanggal pengeluaran')
+                            ->helperText('Tanggal terjadinya pengeluaran'),
+                        Forms\Components\TextInput::make('jumlah')
+                            ->label('Jumlah (Rp)')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('Masukkan jumlah pengeluaran')
+                            ->helperText('Total biaya yang dikeluarkan'),
+                        Forms\Components\Textarea::make('deskripsi')
+                            ->label('Deskripsi')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Jelaskan detail pengeluaran')
+                            ->helperText('Keterangan lengkap tentang pengeluaran ini')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

@@ -32,48 +32,90 @@ class ServiceHpResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_pelanggan')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan nama lengkap pelanggan'),
-                Forms\Components\TextInput::make('no_telepon')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Contoh: 08123456789'),
-                Forms\Components\TextInput::make('merk_hp')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan merk HP'),
-                Forms\Components\TextInput::make('model_hp')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Masukkan model HP'),
-                Forms\Components\Textarea::make('jenis_kerusakan')
-                    ->required()
-                    ->columnSpanFull()
-                    ->placeholder('Jelaskan jenis kerusakan HP'),
-                Forms\Components\Textarea::make('keterangan')
-                    ->columnSpanFull()
-                    ->placeholder('Tambahkan keterangan tambahan jika ada'),
-                Forms\Components\TextInput::make('biaya_service')
-                    ->numeric()
-                    ->default(null)
-                    ->placeholder('Masukkan biaya service dalam Rupiah'),
-                Forms\Components\Select::make('status')
-                    ->required()
-                    ->options([
-                        'menunggu' => 'Menunggu',
-                        'proses' => 'Proses',
-                        'selesai' => 'Selesai',
-                        'diambil' => 'Diambil'
-                    ])
-                    ->placeholder('Pilih status service'),
-                Forms\Components\DatePicker::make('tanggal_masuk')
-                    ->required()
-                    ->placeholder('Pilih tanggal masuk service'),
-                Forms\Components\DatePicker::make('tanggal_selesai')
-                    ->placeholder('Pilih tanggal selesai service'),
+                Forms\Components\Section::make('Informasi Pelanggan')
+                    ->description('Data pelanggan yang melakukan service')
+                    ->icon('heroicon-o-user')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('nama_pelanggan')
+                            ->label('Nama Pelanggan')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Masukkan nama lengkap pelanggan')
+                            ->helperText('Nama lengkap pelanggan untuk identifikasi'),
+                        Forms\Components\TextInput::make('no_telepon')
+                            ->label('Nomor Telepon')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Contoh: 08123456789')
+                            ->helperText('Nomor yang bisa dihubungi untuk informasi service'),
+                    ]),
+
+                Forms\Components\Section::make('Detail Perangkat')
+                    ->description('Informasi perangkat yang akan diservice')
+                    ->icon('heroicon-o-device-phone-mobile')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('merk_hp')
+                            ->label('Merk HP')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Contoh: Samsung, iPhone, Xiaomi')
+                            ->helperText('Merk/brand dari perangkat'),
+                        Forms\Components\TextInput::make('model_hp')
+                            ->label('Model HP')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Contoh: Galaxy A52, iPhone 13')
+                            ->helperText('Model spesifik dari perangkat'),
+                        Forms\Components\Textarea::make('jenis_kerusakan')
+                            ->label('Jenis Kerusakan')
+                            ->required()
+                            ->placeholder('Jelaskan jenis kerusakan HP secara detail')
+                            ->helperText('Deskripsikan kerusakan dengan jelas untuk diagnosis yang tepat')
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('keterangan')
+                            ->label('Keterangan Tambahan')
+                            ->placeholder('Tambahkan informasi lain yang relevan')
+                            ->helperText('Informasi tambahan seperti password, kondisi fisik, dll')
+                            ->columnSpanFull(),
+                    ]),
+
+                Forms\Components\Section::make('Informasi Service')
+                    ->description('Detail biaya dan status service')
+                    ->icon('heroicon-o-wrench-screwdriver')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('biaya_service')
+                            ->label('Biaya Service (Rp)')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('Masukkan biaya service')
+                            ->helperText('Kosongkan jika belum ditentukan'),
+                        Forms\Components\Select::make('status')
+                            ->label('Status Service')
+                            ->required()
+                            ->options([
+                                'menunggu' => 'Menunggu',
+                                'proses' => 'Proses',
+                                'selesai' => 'Selesai',
+                                'diambil' => 'Diambil'
+                            ])
+                            ->placeholder('Pilih status service')
+                            ->helperText('Status terkini dari proses service')
+                            ->default('menunggu'),
+                        Forms\Components\DatePicker::make('tanggal_masuk')
+                            ->label('Tanggal Masuk')
+                            ->required()
+                            ->placeholder('Pilih tanggal masuk service')
+                            ->default(now())
+                            ->helperText('Tanggal perangkat diterima untuk service'),
+                        Forms\Components\DatePicker::make('tanggal_selesai')
+                            ->label('Tanggal Selesai')
+                            ->placeholder('Pilih tanggal selesai service')
+                            ->helperText('Kosongkan jika belum selesai'),
+                    ]),
             ]);
     }
 

@@ -33,36 +33,63 @@ class ProdukResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required()
-                    ->placeholder('Unggah gambar produk'),
-                Forms\Components\TextInput::make('nama_produk')
-                    ->required()
-                    ->maxLength(100)
-                    ->placeholder('Masukkan nama produk'),
-                Forms\Components\TextInput::make('qty_stok')
-                    ->label('Jumlah Stok')
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Masukkan jumlah stok'),
-                Forms\Components\TextInput::make('harga_beli')
-                    ->label('Harga Beli (Rp)')
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Masukkan harga beli produk'),
-                Forms\Components\TextInput::make('harga_jual_toko')
-                    ->label('Harga Jual di Toko (Rp)')
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Masukkan harga jual produk'),
-                Forms\Components\Select::make('kategori_id')
-                    ->label('Kategori')
-                    ->relationship('kategori', 'nama')
-                    ->required()
-                    ->placeholder('Pilih kategori produk'),
+                Forms\Components\Section::make('Informasi Produk')
+                    ->description('Detail informasi produk')
+                    ->icon('heroicon-m-building-storefront')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Gambar Produk')
+                            ->image()
+                            ->required()
+                            ->placeholder('Unggah gambar produk')
+                            ->helperText('Format: JPG, PNG. Ukuran max: 2MB')
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('1:1')
+                            ->imageResizeTargetWidth('300')
+                            ->imageResizeTargetHeight('300'),
+                        Forms\Components\TextInput::make('nama_produk')
+                            ->label('Nama Produk')
+                            ->required()
+                            ->maxLength(100)
+                            ->placeholder('Contoh: Headset Gaming XYZ')
+                            ->helperText('Nama lengkap produk untuk ditampilkan'),
+                        Forms\Components\Select::make('kategori_id')
+                            ->label('Kategori')
+                            ->relationship('kategori', 'nama')
+                            ->required()
+                            ->searchable()
+                            ->placeholder('Pilih kategori produk')
+                            ->helperText('Kategori untuk pengelompokan produk'),
+                    ]),
 
-
+                Forms\Components\Section::make('Informasi Stok & Harga')
+                    ->description('Detail stok dan harga produk')
+                    ->icon('heroicon-m-currency-dollar')
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('qty_stok')
+                            ->label('Jumlah Stok')
+                            ->required()
+                            ->numeric()
+                            ->minValue(0)
+                            ->placeholder('Contoh: 10')
+                            ->helperText('Jumlah stok tersedia'),
+                        Forms\Components\TextInput::make('harga_beli')
+                            ->label('Harga Beli (Rp)')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('Contoh: 50000')
+                            ->helperText('Harga modal pembelian produk'),
+                        Forms\Components\TextInput::make('harga_jual_toko')
+                            ->label('Harga Jual (Rp)')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('Contoh: 75000')
+                            ->helperText('Harga jual ke pelanggan'),
+                    ]),
             ]);
     }
 

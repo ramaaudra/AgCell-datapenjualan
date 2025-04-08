@@ -33,10 +33,18 @@ class KategoriResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama')
-                    ->required()
-                    ->maxLength(200)
-                    ->placeholder('Masukkan nama kategori'),
+                Forms\Components\Section::make('Detail Kategori')
+                    ->description('Informasi tentang kategori produk')
+                    ->icon('heroicon-o-tag')
+                    ->schema([
+                        Forms\Components\TextInput::make('nama')
+                            ->label('Nama Kategori')
+                            ->required()
+                            ->maxLength(200)
+                            ->placeholder('Contoh: Elektronik, Aksesoris, dll')
+                            ->helperText('Nama kategori untuk pengelompokan produk'),
+                    ])
+                    ->columns(1),
             ]);
     }
 
