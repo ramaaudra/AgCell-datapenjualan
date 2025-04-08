@@ -7,6 +7,8 @@ use App\Models\Penjualan;
 use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\ProdukPenjualan;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -61,11 +63,11 @@ class LaporanPenjualanResource extends Resource
                     ->label('Pembeli')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jumlah')
-                    ->label('Total (Rp)')
+                    ->label('Total')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('laba_bersih')
-                    ->label('Laba Bersih (Rp)')
+                    ->label('Laba Bersih')
                     ->money('IDR')
                     ->getStateUsing(function (Penjualan $record) {
                         return $record->orderProducts()->with('produk')->get()
@@ -125,6 +127,14 @@ class LaporanPenjualanResource extends Resource
                     ->label('Detail')
                     ->url(fn(Penjualan $record): string => route('filament.admin.resources.penjualans.edit', ['record' => $record]))
                     ->icon('heroicon-o-eye'),
+            ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->askForFilename()
+                        ->askForWriterType()
+                        ->fromTable()
+                ])
             ])
             ->bulkActions([
                 // No bulk actions needed for reports

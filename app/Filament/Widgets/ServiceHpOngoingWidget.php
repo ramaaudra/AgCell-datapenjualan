@@ -58,14 +58,14 @@ class ServiceHpOngoingWidget extends BaseWidget
                     ->getStateUsing(function ($record) {
                         $start = \Carbon\Carbon::parse($record->tanggal_masuk);
                         $now = now();
-                        $days = $start->diffInDays($now);
+                        $days = intval($start->diffInDays($now));
                         return $days . ' Hari';
                     })
                     ->badge()
                     ->color(function ($record) {
                         $start = \Carbon\Carbon::parse($record->tanggal_masuk);
                         $now = now();
-                        $days = $start->diffInDays($now);
+                        $days = intval($start->diffInDays($now));
                         return match (true) {
                             $days > 14 => 'danger',
                             $days > 7 => 'warning',

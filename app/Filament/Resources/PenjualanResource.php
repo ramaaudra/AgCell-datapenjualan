@@ -41,14 +41,12 @@ class PenjualanResource extends Resource
                             ->label('Tanggal Penjualan')
                             ->required()
                             ->default(now())
-                            ->placeholder('Pilih tanggal penjualan')
-                            ->helperText('Tanggal terjadinya transaksi penjualan'),
+                            ->placeholder('Pilih tanggal penjualan'),
                         Forms\Components\TextInput::make('pembeli')
                             ->label('Nama Pembeli')
                             ->required()
                             ->placeholder('Masukkan nama pembeli')
                             ->maxLength(200)
-                            ->helperText('Nama pelanggan yang melakukan pembelian'),
                     ]),
                 Forms\Components\Section::make('Produk yang Dibeli')
                     ->description('Daftar produk yang dibeli oleh pelanggan')
@@ -58,7 +56,7 @@ class PenjualanResource extends Resource
                     ]),
                 Forms\Components\Section::make('Total Pembayaran')
                     ->description('Informasi total pembayaran')
-                    ->icon('heroicon-o-banknotes')
+                    ->icon('heroicon-o-banknotes')  
                     ->schema([
                         Forms\Components\TextInput::make('jumlah')
                             ->label('Total Pembayaran (Rp)')
@@ -67,7 +65,6 @@ class PenjualanResource extends Resource
                             ->readOnly()
                             ->prefix('Rp')
                             ->numeric()
-                            ->helperText('Total pembayaran dihitung otomatis berdasarkan produk yang dipilih'),
                     ]),
             ]);
     }
@@ -150,7 +147,6 @@ class PenjualanResource extends Resource
                     ->columnSpan([
                         'md' => 5
                     ])
-                    ->helperText('Pilih produk yang dibeli pelanggan')
                     ->afterStateHydrated(function (Forms\Set $set, Forms\Get $get, $state) {
                         $product = Produk::find($state);
                         $set('unit_price', $product->harga_jual_toko ?? 0);
@@ -171,7 +167,6 @@ class PenjualanResource extends Resource
                     ->numeric()
                     ->default(1)
                     ->minValue(1)
-                    ->helperText('Jumlah produk yang dibeli')
                     ->columnSpan([
                         'md' => 1
                     ])
@@ -191,7 +186,6 @@ class PenjualanResource extends Resource
                     ->required()
                     ->numeric()
                     ->readOnly()
-                    ->helperText('Jumlah stok yang tersedia')
                     ->columnSpan([
                         'md' => 1
                     ]),
@@ -201,7 +195,6 @@ class PenjualanResource extends Resource
                     ->numeric()
                     ->prefix('Rp')
                     ->readOnly()
-                    ->helperText('Harga per unit produk')
                     ->columnSpan([
                         'md' => 3
                     ]),
