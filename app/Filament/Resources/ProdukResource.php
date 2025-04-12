@@ -101,6 +101,7 @@ class ProdukResource extends Resource
                     ->square(),
                 Tables\Columns\TextColumn::make('nama_produk')
                     ->label('Nama Produk')
+                    ->description(fn($record): string => $record->kategori->nama ?? '-')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('qty_stok')
                     ->label('Jumlah Stok')
@@ -112,10 +113,6 @@ class ProdukResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('harga_jual_toko')
                     ->label('Harga Jual di Toko (Rp)')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('kategori.nama')
-                    ->label('Kategori')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

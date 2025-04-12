@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Kategori;
 use App\Models\ProdukPenjualan;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -13,7 +14,7 @@ class ProdukTerlarisWidget extends BaseWidget
 {
     protected static ?int $sort = 9;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 'half';
 
     public function getTableRecordKey(Model $record): string
     {
@@ -49,16 +50,18 @@ class ProdukTerlarisWidget extends BaseWidget
             ->columns([
                 Tables\Columns\TextColumn::make('produk.nama_produk')
                     ->label('Nama Produk')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('produk.kategori.nama')
-                    ->label('Kategori'),
+                    ->description(fn($record): string => $record->produk->kategori->nama ?? '-')
+                    ->searchable()
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('total_quantity')
                     ->label('Jumlah Terjual')
-                    ->sortable(),
+                    ->sortable()
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('total_revenue')
                     ->label('Total Pendapatan')
                     ->money('IDR')
-                    ->sortable(),
+                    ->sortable()
+                    ->wrap(),
             ])
             ->actions([
                 Tables\Actions\Action::make('detail')

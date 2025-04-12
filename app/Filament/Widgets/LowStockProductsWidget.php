@@ -11,7 +11,7 @@ class LowStockProductsWidget extends BaseWidget
 {
     protected static ?int $sort = 8;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 'half';
 
     protected function getTableHeading(): string
     {
@@ -30,9 +30,9 @@ class LowStockProductsWidget extends BaseWidget
             ->columns([
                 Tables\Columns\TextColumn::make('nama_produk')
                     ->label('Nama Produk')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('kategori.nama')
-                    ->label('Kategori'),
+                    ->description(fn($record): string => $record->kategori->nama ?? '-')
+                    ->searchable()
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('qty_stok')
                     ->label('Stok Tersisa')
                     ->sortable()
@@ -42,14 +42,6 @@ class LowStockProductsWidget extends BaseWidget
                         $state <= 3 => 'warning',
                         default => 'info',
                     }),
-                Tables\Columns\TextColumn::make('harga_beli')
-                    ->label('Harga Beli')
-                    ->money('IDR')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('harga_jual_toko')
-                    ->label('Harga Jual')
-                    ->money('IDR')
-                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\Action::make('detail')
